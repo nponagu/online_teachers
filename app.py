@@ -38,4 +38,4 @@ def render_booking_done():
     return 'Hello World!'
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=Truer)
