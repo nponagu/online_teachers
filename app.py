@@ -37,5 +37,6 @@ def render_booking(teacher_id, day, time):
 def render_booking_done():
     return 'Hello World!'
 
+
 if __name__ == '__main__':
-    app.run(debug=Truer)
+    app.run(debug=True)
