@@ -1,14 +1,18 @@
 from flask import Flask, render_template
+import json
+
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    goals = json.load(open('mock_db.json', 'r', encoding='utf-8'))[0]
+    teachers = json.load(open('mock_db.json', 'r', encoding='utf-8'))[1]
+    return render_template('index.html', goals=goals, teachers=teachers)
 
 
-@app.route('/goals/<goal>/')
+@app.route('/goals/<string:goal>/')
 def render_goal(goal):
     return render_template('goal.html')
 
