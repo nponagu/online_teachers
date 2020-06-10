@@ -19,7 +19,14 @@ def render_goal(goal):
 
 @app.route('/profiles/<int:teacher_id>/')
 def render_profile(teacher_id):
-    return render_template('profile.html')
+    teachers = json.load(open('mock_db.json', 'r', encoding='utf-8'))[1]
+    for item in teachers:
+        if item["id"] == teacher_id:
+            teacher = item
+    print(teacher)
+
+    schedule = teacher["free"]
+    return render_template('profile.html', teacher=teacher, schedule=schedule)
 
 
 @app.route('/request/')
