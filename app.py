@@ -30,7 +30,13 @@ def index():
 
 @app.route('/goals/<string:goal>/')
 def render_goal(goal):
-    return render_template('goal.html')
+
+    selected_teachers = [teacher for teacher in teachers if goal in teacher["goals"]]
+    goal_name = goals[goal].lower()
+
+    return render_template('goal.html',
+                           teachers=selected_teachers,
+                           goal_name=goal_name)
 
 
 @app.route('/profiles/<int:teacher_id>/')
