@@ -3,8 +3,8 @@ import json
 from flask import Flask, render_template, request
 
 
-
 app = Flask(__name__)
+
 
 week_days = {
     "mon": "Monday",
@@ -16,12 +16,16 @@ week_days = {
     "sun": "Sunday"
 }
 
+
+goals = json.load(open('mock_db.json', 'r', encoding='utf-8'))[0]
 teachers = json.load(open('mock_db.json', 'r', encoding='utf-8'))[1]
+
 
 @app.route('/')
 def index():
-    goals = json.load(open('mock_db.json', 'r', encoding='utf-8'))[0]
-    return render_template('index.html', goals=goals, teachers=teachers)
+    return render_template('index.html',
+                           goals=goals,
+                           teachers=teachers)
 
 
 @app.route('/goals/<string:goal>/')
@@ -36,7 +40,9 @@ def render_profile(teacher_id):
             teacher = item
 
     schedule = teacher["free"]
-    return render_template('profile.html', teacher=teacher, schedule=schedule)
+    return render_template('profile.html',
+                           teacher=teacher,
+                           schedule=schedule)
 
 
 @app.route('/request/')
@@ -59,26 +65,21 @@ def render_booking(teacher_id, day, time):
     week_day = week_days[day]
     time = time
 
-    # clientName = request.form["clientName"]
-    # clientPhone = request.form["clientPhone"]
-    #
-    # if request.method == 'POST':
-    #     render_booking_done(clientName, clientPhone)
-    # print(request.form)
-
-    return render_template('booking.html', teacher=teacher, week_day=week_day, time=time)
+    return render_template('booking.html',
+                           teacher=teacher,
+                           week_day=week_day,
+                           time=time)
 
 
-@app.route('/booking_done/')
+@app.route('/booking_done/', methods=['POST'])
 def render_booking_done():
 
-    # clientName = request.form["clientName"]
-    # clientPhone= request.form["clientPhone"]
+    clientName = request.form["clientName"]
+    clientPhone = request.form["clientPhone"]
 
-    print(request.form)
-
-    # return render_template('booking_done.html', clientName=clientName, clientPhone=clientPhone)
-    return request.form
+    return render_template('booking_done.html',
+                           clientName=clientName,
+                           clientPhone=clientPhone)
 
 
 if __name__ == '__main__':
