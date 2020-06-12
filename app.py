@@ -1,4 +1,5 @@
 import json
+from random import sample
 
 from flask import Flask, render_template, request
 
@@ -23,9 +24,12 @@ teachers = json.load(open('mock_db.json', 'r', encoding='utf-8'))[1]
 
 @app.route('/')
 def index():
+
+    random_teachers = sample(teachers, 6)
+
     return render_template('index.html',
                            goals=goals,
-                           teachers=teachers)
+                           teachers=random_teachers)
 
 
 @app.route('/goals/<string:goal>/')
@@ -41,6 +45,7 @@ def render_goal(goal):
 
 @app.route('/profiles/<int:teacher_id>/')
 def render_profile(teacher_id):
+
     for item in teachers:
         if item["id"] == teacher_id:
             teacher = item
