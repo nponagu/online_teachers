@@ -76,6 +76,18 @@ def render_booking_done():
 
     clientName = request.form["clientName"]
     clientPhone = request.form["clientPhone"]
+    clientTime = request.form["clientTime"]
+    clientTeacher = request.form["clientTeacher"]
+
+    book = {"clientName": clientName,
+            "clientPhone": clientPhone,
+            "clientTime": clientTime,
+            "clientTeacher": clientTeacher}
+
+    with open("booking.json", "r+") as file:
+        data = json.load(file)
+        file.seek(0)
+        json.dump([data, book], file)
 
     return render_template('booking_done.html',
                            clientName=clientName,
