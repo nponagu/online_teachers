@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request
 import json
+
+from flask import Flask, render_template, request
+
 
 
 app = Flask(__name__)
@@ -64,7 +66,9 @@ def render_booking(teacher_id, day, time):
 
 
 @app.route('/booking_done/')
-def render_booking_done(clientName, clientPhone, week_day, ):
+def render_booking_done(clientName, clientPhone):
+    clientName = clientName
+    clientPhone = clientPhone
     return render_template('booking_done.html', clientName=clientName, clientPhone=clientPhone)
 
 
