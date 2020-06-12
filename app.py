@@ -60,13 +60,13 @@ def render_request_done():
 
     req = {"clientName": clientName,
             "clientPhone": clientPhone,
-            "goal": clientTime,
-            "time": clientTeacher}
+            "goal": goal,
+            "time": time}
 
-    with open("booking.json", "r+") as file:
+    with open("request.json", "r+") as file:
         data = json.load(file)
         file.seek(0)
-        data.append(book)
+        data.append(req)
         json.dump(data, file)
 
     return render_template('request_done.html',
