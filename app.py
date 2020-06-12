@@ -45,14 +45,29 @@ def render_profile(teacher_id):
                            schedule=schedule)
 
 
-@app.route('/request/')
+@app.route('/request/', methods=['GET', 'POST'])
 def render_request():
     return render_template('request.html')
 
 
-@app.route('/request_done/')
+@app.route('/request_done/', methods=['POST'])
 def render_request_done():
-    return render_template('request_done.html')
+
+    goal = goals.get(request.form["goal"])
+    time = request.form["time"]
+    clientName = request.form["clientName"]
+    clientPhone = request.form["clientPhone"]
+
+    with open("booking.json", "r+") as file:
+        data = json.load(file)
+        file.seek(0)
+        json.dump([data, book], file)
+
+    return render_template('request_done.html',
+                           goal=goal,
+                           time=time,
+                           clientName=clientName,
+                           clientPhone=clientPhone)
 
 
 @app.route('/booking/<int:teacher_id>/<string:day>/<time>/', methods=['GET', 'POST'])
