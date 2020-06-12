@@ -59,26 +59,26 @@ def render_booking(teacher_id, day, time):
     week_day = week_days[day]
     time = time
 
-    clientName = request.form["clientName"]
-    clientPhone = request.form["clientPhone"]
-
-    if request.method == 'POST':
-        render_booking_done(clientName, clientPhone)
-    print(request.form)
+    # clientName = request.form["clientName"]
+    # clientPhone = request.form["clientPhone"]
+    #
+    # if request.method == 'POST':
+    #     render_booking_done(clientName, clientPhone)
+    # print(request.form)
 
     return render_template('booking.html', teacher=teacher, week_day=week_day, time=time)
 
 
 @app.route('/booking_done/')
-def render_booking_done(clientName, clientPhone):
+def render_booking_done():
 
     # clientName = request.form["clientName"]
     # clientPhone= request.form["clientPhone"]
 
     print(request.form)
 
-    return render_template('booking_done.html', clientName=clientName, clientPhone=clientPhone)
-    # return request.form
+    # return render_template('booking_done.html', clientName=clientName, clientPhone=clientPhone)
+    return request.form
 
 
 if __name__ == '__main__':
