@@ -58,10 +58,16 @@ def render_request_done():
     clientName = request.form["clientName"]
     clientPhone = request.form["clientPhone"]
 
+    req = {"clientName": clientName,
+            "clientPhone": clientPhone,
+            "goal": clientTime,
+            "time": clientTeacher}
+
     with open("booking.json", "r+") as file:
         data = json.load(file)
         file.seek(0)
-        json.dump([data, book], file)
+        data.append(book)
+        json.dump(data, file)
 
     return render_template('request_done.html',
                            goal=goal,
@@ -102,7 +108,8 @@ def render_booking_done():
     with open("booking.json", "r+") as file:
         data = json.load(file)
         file.seek(0)
-        json.dump([data, book], file)
+        data.append(book)
+        json.dump(data, file)
 
     return render_template('booking_done.html',
                            clientName=clientName,
