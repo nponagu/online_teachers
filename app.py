@@ -6,7 +6,6 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-
 week_days = {
     "mon": "Monday",
     "tue": "Tuesday",
@@ -128,4 +127,4 @@ def render_booking_done():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
