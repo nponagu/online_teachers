@@ -2,9 +2,20 @@ import json
 from random import sample
 
 from flask import Flask, render_template, request
-
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 app = Flask(__name__)
+
+conf = json.load(open('pass_db.json', 'r', encoding='utf-8'))[0]
+login = conf.get("login")
+pwd = conf.get("pwd")
+db_connection = f'postgresql+psycopg2://{login}:{pwd}@localhost/online_studying'
+app.config['SQLALCHEMY_DATABASE_URI'] = db_connection
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
 
 week_days = {
     "mon": "Monday",
