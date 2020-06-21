@@ -1,5 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy, Column, Integer, String, Text, Float, JSON, DateTime, ForeignKey
-from flask_sqlalchemy.orm import relationship
+from flask_sqlalchemy import SQLAlchemy, Column, Integer, String, Text, Float, JSON, DateTime, ForeignKey, \
+    relationship
 
 from app import app
 
@@ -27,10 +27,19 @@ class Teacher(db.Model):
 
 
 class Booking(db.Model):
-    __tablename__ = 'booking'
+    __tablename__ = 'bookings'
     id = db.Column(db.Integer, primary_key=True, unique=True)
     clientName = db.Column(db.String(50), nullable=False)
     clientPhone = db.Column(db.String(15), nullable=False)
     clientTime = db.Column(db.DateTime, nullable=False)
     teacher_id = db.Column(db.Integer, db.ForeignKey("teachers.id"))
     teacher = db.relationship("Teacher")
+
+
+class Request(db.Model):
+    __tablename__ = 'requests'
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    clientName = db.Column(db.String(50), nullable=False)
+    clientPhone = db.Column(db.String(15), nullable=False)
+    goal = db.Column(db.Text)
+    time = db.Column(db.DateTime)
