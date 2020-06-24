@@ -1,5 +1,4 @@
 import json
-from random import sample
 
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
@@ -112,16 +111,13 @@ def render_request_done():
     clientName = request.form["clientName"]
     clientPhone = request.form["clientPhone"]
 
-    req = {"clientName": clientName,
-            "clientPhone": clientPhone,
-            "goal": goal,
-            "time": time}
+    req = Request(clientName=clientName,
+                  clientPhone=clientPhone,
+                  goal=goal,
+                  time=time)
 
-    with open("request.json", "r+") as file:
-        data = json.load(file)
-        file.seek(0)
-        data.append(req)
-        json.dump(data, file)
+    db.session.add(req)
+    db.session.commit()
 
     return render_template('request_done.html',
                            goal=goal,
@@ -133,9 +129,7 @@ def render_request_done():
 @app.route('/booking/<int:teacher_id>/<string:day>/<time>/', methods=['GET', 'POST'])
 def render_booking(teacher_id, day, time):
 
-    for item in teachers:
-        if item["id"] == teacher_id:
-            teacher = item
+    teacher = db.session.query(Teacher).get_or_404(teacher_id)
 
     week_day = week_days[day]
     time = time
@@ -152,18 +146,15 @@ def render_booking_done():
     clientName = request.form["clientName"]
     clientPhone = request.form["clientPhone"]
     clientTime = request.form["clientTime"]
-    clientTeacher = request.form["clientTeacher"]
+    clientTeacher = int(request.form["clientTeacher"])
 
-    book = {"clientName": clientName,
-            "clientPhone": clientPhone,
-            "clientTime": clientTime,
-            "clientTeacher": clientTeacher}
+    booking = Booking(clientName=clientName,
+                   clientPhone=clientPhone,
+                   clientTime=clientTime,
+                   teacher_id=clientTeacher)
 
-    with open("booking.json", "r+") as file:
-        data = json.load(file)
-        file.seek(0)
-        data.append(book)
-        json.dump(data, file)
+    db.session.add(booking)
+    db.session.commit()
 
     return render_template('booking_done.html',
                            clientName=clientName,
