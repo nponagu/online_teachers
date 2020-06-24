@@ -33,4 +33,5 @@ class Request(db.Model):
     time = db.Column(db.String(5))
 
 
-db.create_all()
+if __name__ == '__main__':
+    db.create_all()

@@ -5,6 +5,8 @@ from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
+from models import Teacher
+
 app = Flask(__name__)
 
 conf = json.load(open('pass_db.json', 'r', encoding='utf-8'))[0]
@@ -56,9 +58,10 @@ def render_goal(goal):
 @app.route('/profiles/<int:teacher_id>/')
 def render_profile(teacher_id):
 
-    for item in teachers:
-        if item["id"] == teacher_id:
-            teacher = item
+    teacher = db.session.query(Teacher).get_or_404(id)
+    # for item in teachers:
+    #     if item["id"] == teacher_id:
+    #         teacher = item
 
     schedule = teacher["free"]
     return render_template('profile.html',
