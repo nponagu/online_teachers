@@ -69,7 +69,7 @@ teachers = json.load(open('mock_db.json', 'r', encoding='utf-8'))[1]
 @app.route('/')
 def index():
 
-    random_teachers = sample(teachers, 6)
+    random_teachers = db.session.query(Teacher).limit(5).all()
 
     return render_template('index.html',
                            goals=goals,
