@@ -17,6 +17,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = db_connection
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+
 class Teacher(db.Model):
     __tablename__ = 'teachers'
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -78,7 +79,8 @@ def index():
 @app.route('/goals/<string:goal>/')
 def render_goal(goal):
 
-    selected_teachers = [teacher for teacher in teachers if goal in teacher["goals"]]
+    teachers_db = db.session.query(Teacher).all()
+    selected_teachers = [teacher for teacher in teachers_db if goal in teacher.goals.split()]
     goal_name = goals[goal].lower()
 
     return render_template('goal.html',
